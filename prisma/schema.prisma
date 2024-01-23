@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// schema.prisma
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  title     String
+  description String
+  startDate DateTime
+  endDate   DateTime
+  seats     Int
+  participants Participant[]
+}
+
+model Participant {
+  id       Int      @id @default(autoincrement())
+  fullName String
+  email    String
+  eventId  Int
+  event    Event    @relation(fields: [eventId], references: [id])
+}
