@@ -6,6 +6,7 @@ CREATE TABLE `Event` (
     `startDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
     `seats` INTEGER NOT NULL,
+    `registeredParticipantsCount` INTEGER NOT NULL DEFAULT 0,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
