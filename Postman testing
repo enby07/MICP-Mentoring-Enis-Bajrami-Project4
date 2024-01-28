@@ -278,7 +278,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete one event Successfully Copy",
+			"name": "Delete All Events Successfully",
 			"request": {
 				"method": "DELETE",
 				"header": [],
