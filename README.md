@@ -1,8 +1,8 @@
-**Event Registration App**
+# Event Registration App
 
 This is a simple event registration application built with Node.js, Express.js, Prisma, and Nodemailer.
 
-**Features**
+## Features
 
 - Create Events: Users can create events with a title, description, start date, end date, and number of available seats.
 - Register Participants: Participants can register for events by providing their full name and email address.
@@ -11,33 +11,46 @@ This is a simple event registration application built with Node.js, Express.js, 
 - Automated Event Expiry: Events are automatically deleted after they expire.
 
   
-**SETUP**
-1. Clone the Repository
-   https://github.com/enby07/MICP-Mentoring-Enis-Bajrami-Project4.git
+## SETUP
+1. Clone the Repository:
+   ```bash
+     https://github.com/enby07/MICP-Mentoring-Enis-Bajrami-Project4.git
+   ```
    
-2. Install Dependencies
-   cd event-registration-app
-   npm install
+3. Install Dependencies
+   ```bash
+     cd MICP-Mentoring-Enis-Bajrami-Project4
+     npm install
+   ```
    
-3.Set Environment Variables
-  Create a .env file in the root directory and add the following variables:
-  Database connection URL (*NOTE: ADD YOUR OWN DATABASE CONNECTION)
-  DATABASE_URL="mysql://username:password@localhost:5432/event_registration"
+5. Set Environment Variables
+   Create a .env file in the root directory and add the following variables:
+   Database connection URL (*NOTE: ADD YOUR OWN DATABASE CONNECTION)`
+   ```bash
+     DATABASE_URL="mysql://username:password@localhost:5432/event_registration"
+   ```
   
-  SMTP Email Configuration (*NOTE: ADD YOUR OWN SMTP EMAIL CONFIGURATION. GET FREE FROM SITE: https://ethereal.email/)
-  SMTP_HOST="smtp.example.com"
-  SMTP_PORT=587
-  SMTP_USER="your-email@example.com"
-  SMTP_PASS="your-email-password"
+    SMTP Email Configuration (*NOTE: ADD YOUR OWN SMTP EMAIL CONFIGURATION. GET FREE FROM SITE: https://ethereal.email/)
+    ```bash
+       host: 'smtp.ethereal.email',
+        port: 587,
+        auth: {
+           user: 'regan.turcotte@ethereal.email',
+            pass: 'HzVnT9ew3YrS2ChUYJ'
+           }
+    ```
+7. Run the database migrations to create tables in your database:
+   ```bash
+       npx prisma migrate dev --name init
+   ```
 
-4. Run the database migrations to create tables in your database:
-   npx prisma migrate dev --name init
+9. Start the Server
+   ```bash
+     npm start
+   ```
 
-5. Start the Server
-   npm start
-
-6. Access the Application
-   The application should now be running at http://localhost:3000.
+11. Access the Application
+    The application should now be running at http://localhost:3000.`
 ---------------------------------------------------------------------------------
 
 **API Endpoints**
