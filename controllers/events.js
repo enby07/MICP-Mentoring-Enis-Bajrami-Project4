@@ -2,9 +2,14 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const nodemailer = require('nodemailer')
 
-//post ('/events',
-const createEvent =  async (req, res) => {
-    const { title, description, startDate, endDate, seats } = req.body;
+//post Create event
+const createEvent = async (req, res) => {
+  const { title, description, startDate, endDate, seats } = req.body;
+
+  if (!title || !description || !startDate || !endDate || !seats) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  try {
     const event = await prisma.event.create({
       data: {
         title,
@@ -15,7 +20,45 @@ const createEvent =  async (req, res) => {
       },
     });
     res.json(event);
+  } catch (error) {
+    console.error("Error creating event:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// fetch an Event 
+
+const getEvent = async (req, res) => {
+    const { eventId } = req.params;
+  
+    try {
+      const event = await prisma.event.findUnique({
+        where: { id: parseInt(eventId) },
+      });
+  
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+  
+      res.json(event);
+    } catch (error) {
+      console.error('Error fetching event:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   };
+
+  //Get all events
+
+const getAllEvents = async (req, res) => {
+    try {
+      const events = await prisma.event.findMany();
+  
+      res.json(events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
   
   // post Register Participant ('/events/:eventId/register',
  const registerParticipants =  async (req, res) => {
@@ -54,21 +97,20 @@ const createEvent =  async (req, res) => {
       });
   
     // Send confirmation email to the participant
-    
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: 'mossie.daniel62@ethereal.email',
-            pass: 'm25Kxp6yThf4UB5cpW'
+            user: 'regan.turcotte@ethereal.email',
+            pass: 'HzVnT9ew3YrS2ChUYJ'
         }
     });
 
     const mailOptions = {
       from: 'MICP - Event Manager',
       to: email,
-      subject: 'Event Registration Confirmation',
+      subject: 'MICP - Event Registration Confirmation',
       text: `You are successfully registered for the event "${event.title}"`,
     };
   
@@ -146,5 +188,5 @@ const updateEvent = async (req, res) => {
     }
   };
 
-  module.exports = {createEvent, registerParticipants, deleteExpiredEvents, updateEvent}
+  module.exports = {createEvent, getEvent, getAllEvents, registerParticipants, deleteExpiredEvents, updateEvent}
   

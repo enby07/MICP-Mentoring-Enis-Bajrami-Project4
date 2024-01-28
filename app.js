@@ -5,6 +5,7 @@ const eventRoutes = require('./routes/events')
 const app = new express();
 app.use(bodyParser.json())
 const PORT = process.env.PORT || 3000;
+
 //rotues
 
 app.use('/events', eventRoutes);
