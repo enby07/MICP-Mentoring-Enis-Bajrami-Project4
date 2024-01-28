@@ -21,10 +21,10 @@ This is a simple event registration application built with Node.js, Express.js, 
    
 3.Set Environment Variables
   Create a .env file in the root directory and add the following variables:
-  # Database connection URL (*NOTE: ADD YOUR OWN DATABASE CONNECTION)
+  Database connection URL (*NOTE: ADD YOUR OWN DATABASE CONNECTION)
   DATABASE_URL="mysql://username:password@localhost:5432/event_registration"
   
-  # SMTP Email Configuration (*NOTE: ADD YOUR OWN SMTP EMAIL CONFIGURATION. GET FREE FROM SITE: https://ethereal.email/)
+  SMTP Email Configuration (*NOTE: ADD YOUR OWN SMTP EMAIL CONFIGURATION. GET FREE FROM SITE: https://ethereal.email/)
   SMTP_HOST="smtp.example.com"
   SMTP_PORT=587
   SMTP_USER="your-email@example.com"
