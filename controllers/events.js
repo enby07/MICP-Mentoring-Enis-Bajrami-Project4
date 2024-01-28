@@ -60,7 +60,7 @@ const getAllEvents = async (req, res) => {
     }
   }
   
-  // post Register Participant ('/events/:eventId/register',
+  // post Register Participant 
  const registerParticipants =  async (req, res) => {
     const { eventId } = req.params;
     const { fullName, email } = req.body;
@@ -79,6 +79,7 @@ const getAllEvents = async (req, res) => {
       return res.status(400).json({ error: 'No more seats available' });
     }
   
+    // registering participant
     const participant = await prisma.participant.create({
       data: {
         fullName,
@@ -87,6 +88,9 @@ const getAllEvents = async (req, res) => {
       },
     });
 
+
+
+    //increses the number of participants by 1
     await prisma.event.update({
         where: { id: parseInt(eventId) },
         data: {
@@ -96,14 +100,16 @@ const getAllEvents = async (req, res) => {
         },
       });
   
+
+
     // Send confirmation email to the participant
 
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: 'regan.turcotte@ethereal.email',
-            pass: 'HzVnT9ew3YrS2ChUYJ'
+            user: 'pinkie51@ethereal.email',
+            pass: 'ZrAHyGDh1XAj44KPS1'
         }
     });
 
@@ -160,9 +166,6 @@ const deleteExpiredEvents = async(req, res)=> {
   const intervalInMilliseconds = 60 * 1000; // 60 secs intervall. (24 * 60 * 60 * 1000) - 24h
   setInterval(deleteExpiredEvents, intervalInMilliseconds);
 
-  // app.js
-
-// ... (previous code)
 
 // Update Event
 const updateEvent = async (req, res) => {
@@ -188,5 +191,42 @@ const updateEvent = async (req, res) => {
     }
   };
 
-  module.exports = {createEvent, getEvent, getAllEvents, registerParticipants, deleteExpiredEvents, updateEvent}
+const deleteEvent = async (req, res) => {
+    const { eventId } = req.params;
+  
+    try {
+      // Check if the event exists
+      const event = await prisma.event.findUnique({
+        where: { id: parseInt(eventId) },
+      });
+  
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+  
+      // Delete the event
+      await prisma.event.delete({
+        where: { id: parseInt(eventId) },
+      });
+  
+      res.json({ message: 'Event deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+const deleteAllEvents = async (req, res) => {
+    try {
+      // Delete all events
+      await prisma.event.deleteMany();
+  
+      res.json({ message: 'All events deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting events:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  module.exports = {createEvent, getEvent, getAllEvents, registerParticipants, deleteExpiredEvents, updateEvent, deleteEvent, deleteAllEvents}
   
