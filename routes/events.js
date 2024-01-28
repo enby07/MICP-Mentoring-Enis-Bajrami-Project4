@@ -8,6 +8,6 @@ router.post('/registerParticipants/:eventId/register', registerParticipants);
 router.delete('/deleteExpiredEvents', deleteExpiredEvents);
 router.put('/updateEvent/:eventId', updateEvent);
 router.delete('/deleteEvent/:eventId', deleteEvent);
-router.delete('/deleteAllEvents/:eventId', deleteAllEvents);
+router.delete('/deleteAllEvents', deleteAllEvents);
 
 module.exports = router;

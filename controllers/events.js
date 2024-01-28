@@ -199,17 +199,23 @@ const deleteEvent = async (req, res) => {
       const event = await prisma.event.findUnique({
         where: { id: parseInt(eventId) },
       });
-  
+
       if (!event) {
-        return res.status(404).json({ error: 'Event not found' });
+        return res.status(404).json({ error: "Event not found" });
       }
-  
+
       // Delete the event
+      //first deleting all participants and then the event
+      await prisma.participant.deleteMany({
+        where: {
+          eventId: event.id,
+        },
+      });
       await prisma.event.delete({
         where: { id: parseInt(eventId) },
       });
-  
-      res.json({ message: 'Event deleted successfully' });
+
+      res.json({ message: "Event deleted successfully" });
     } catch (error) {
       console.error('Error deleting event:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -219,12 +225,14 @@ const deleteEvent = async (req, res) => {
 const deleteAllEvents = async (req, res) => {
     try {
       // Delete all events
+      //first deleting all participants and then the event
+      await prisma.participant.deleteMany();
       await prisma.event.deleteMany();
-  
-      res.json({ message: 'All events deleted successfully' });
+
+      res.json({ message: "All events deleted successfully" });
     } catch (error) {
-      console.error('Error deleting events:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error deleting events:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
